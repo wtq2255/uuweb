@@ -1,0 +1,69 @@
+<div class="col-md-1">
+	<img src="{{MEDIA_URL}}1.png" alt="{{user.user_name}}" class="img-rounded" width='72px' height='72px'>
+</div>
+<div class="col-md-11">
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#countenance").click(function(){
+				$("#countenance-panel").fadeToggle(100);
+			});
+
+			$("#comments-form").validate({
+				rules: {
+					comm_content: {
+						required: true,
+						minlength: 8,
+					},
+				},
+				messages: {
+					comm_content: {
+						required: "您还没有写评论哦。",
+						minlength: jQuery.format("字数太少了，再说点儿什么吧！最少也得{0}个字吧。"),
+					},
+				},
+				submitHandler:function(form){
+					var options = {
+						type: "POST",
+						dataType:'json',
+						url:"/comments/{{pid}}/{{user.user_id}}/",
+						data:{comm_content:$("#comm-content").val(),comm_parent:$("#comm-parent").val(),comm_owner:$("#comm-owner").val()},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert("Ajax connection error");
+							alert(XMLHttpRequest.readyState);
+							alert(XMLHttpRequest.status);
+							return false;
+						},
+						success:function(data){
+							if(data=="True"){
+								commentAjax();
+							}else if(data == "noUser"){
+								$("#login").modal();
+							}else{
+								alert("服务器给我们提了一个问题，我们正在紧张撰写答案中，请稍后访问");
+							}
+							return false;
+						}
+					};
+					// 提交表单
+					jQuery(form).ajaxSubmit(options);
+				},
+				errorLabelContainer: "#commentsErrorBox" ,
+			});
+
+			$("#comm-content").one("keypress",function(){
+				$(this).val("");
+			});
+		});
+	</script>
+	<form id="comments-form">
+		<input type="hidden" name="comm_parent" id="comm-parent" value="0">
+		<input type="hidden" name="comm_owner" id="comm-owner" value="0">
+		<textarea class="form-control" placeholder="说点什么吧…" rows="5" style="border-bottom-right-radius:0px; border-bottom-left-radius:0px; resize:none" id="comm-content" name="comm_content"></textarea>
+		<div class="comments-toolbar">
+			{% include "comments_countenance.html" %}
+			<a role="button" id="countenance" class="countenance btn btn-link pull-left"><span class="glyphicon glyphicon-picture" style="height:100%"></span></a>
+			<input type="submit" class="btn btn-primary comments-submit-button pull-right" style="width:100px;" value="发布" />
+		</div>
+		<div id="commentsErrorBox"></div>
+	</form>
+</div>

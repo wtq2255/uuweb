@@ -1,0 +1,70 @@
+{% include "header.html" %}
+<script src="{{STATIC_URL}}js/additional-methods.min.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		function ajaxUploadPicForm(){
+			$.ajax({
+				type: "POST",
+				url: '/upload_pic_form/',
+				async: false,
+				error: function(request) {
+					alert("Connection error");
+				},
+				success: function(data) {
+					$('#upload-pic-form').html(data);
+				}
+			});
+		};
+		$(document).ready(function(){
+			ajaxUploadPicForm();
+		});
+	</script>
+	<!-- Modal -->
+<div class="modal fade" id="successUploadModal" tabindex="-1" role="dialog" aria-labelledby="successUploadModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="successUploadModalLabel">上传成功</h4>
+			</div>
+			<div class="modal-body">
+				<p>您已成功上传图片，是否继续上传？</P>
+			</div>
+			<div class="modal-footer">
+				<button id="upload-again" type="button" class="btn btn-primary" data-dismiss="modal">再上传一张</button>
+				<a href="/mygallery/{{detailUser.user_id}}/" type="button" class="btn btn-default">不上传了，返回我的图库</a>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-12 page-header">
+						<h1>图片上传</h1>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-7">	
+						<div id="upload-pic-form"></div>
+					</div>
+
+					<div class="col-md-5">
+						<div class="row">
+							<div class="col-md-10">
+								<div class="well text-info">
+									<h4 class="text-center">上传图片须知</h4>
+									<p>
+										<ol>
+											<li>为保证图片响应速度，上传图片大小限制在 1M 之内。</li>
+											<li>上传图片需遵守中国法律，严禁上传色情暴力图片，一经发现将进行封号处理。</li>
+										</ol>
+									</p>
+								</div>
+							</div>
+						</div>	
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% include "footer.html" %}

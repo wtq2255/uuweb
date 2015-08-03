@@ -1,0 +1,121 @@
+{% include "header.html" %}
+	<div class="container">
+		<div class="page-header">
+			<h1>{{detailUser.user_name}} 的图片</h1>
+		</div>
+		<style type="text/css">
+		.actionsUp {
+			z-index: 1000;
+			position: absolute;
+			top:0px;
+			height:40px;
+			width: 90%;
+			padding: 4px;
+			padding-left: 10px;
+			line-height: 1.428571429;
+			background-color: rgba(0,0,0,0.5);
+			border-top-right-radius: 4px;
+			border-top-left-radius: 4px;
+			-webkit-transition: all 0.2s ease-in-out;
+		        transition: all 0.2s ease-in-out;
+		}
+		.actionsDown {
+			z-index: 1000;
+			position: absolute;
+			bottom: 20px;
+			height:80px;
+			width: 90%;
+			padding: 4px;
+			padding-left: 10px;
+			line-height: 1.428571429;
+			background-color: rgba(0,0,0,0.5);
+			border-bottom-right-radius: 4px;
+			border-bottom-left-radius: 4px;
+			-webkit-transition: all 0.2s ease-in-out;
+		        transition: all 0.2s ease-in-out;
+		}
+		</style>
+		<div class="row list-pic">
+			<div id="pic_{{pic.id}}" class="col-md-3">
+				<a href="/upload/" class="thumbnail" style="z-index:1;">
+					<div class="index_pic text-center">
+						<h1 style="padding-top:1em"><span class="glyphicon glyphicon-upload"></span></h1>
+					</div>
+					<div class="caption">
+						<h4 class="text-center" style="">上传新的图片</h4>
+					</div>
+				</a>
+			</div>
+			{% if pics.object_list %}
+				{% for pic in pics.object_list %}
+				<script type="text/javascript"> 
+					$(document).ready(function(){
+						$("#pic_{{pic.id}}").mouseover(function(){
+							$(this).find("#actionsUp{{pic.id}}").show();
+							$(this).find("#actionsDown{{pic.id}}").show();
+						});
+						$("#pic_{{pic.id}}").mouseout(function(){
+							$(this).find("#actionsUp{{pic.id}}").hide();
+							$(this).find("#actionsDown{{pic.id}}").hide();
+						});
+					});
+				</script>
+					<div id="pic_{{pic.id}}" class="col-md-3">
+						<div style="display:none;" class="actionsUp" id="actionsUp{{pic.id}}">
+							<div class="row" style="margin-top:5px;">
+								<div class="col-md-12">
+									<p class="font-white"><span class="glyphicon glyphicon-calendar"></span>&nbsp;{{pic.pic_add_time|date:"Y年m月d日上传"}}</p>
+								</div>
+							</div>
+						</div>
+						<a href="" class="thumbnail" style="z-index:1;" onclick="return false;">
+							<div class="index_pic">
+								<img class="center-block" src="{{pic.pic_src}}" alt="{{pic.pic_title}}">
+							</div>
+							<div class="caption">
+								<h4 class="text-center" style="">{{pic.pic_title}}</h4>
+							</div>
+						</a>
+						<div style="display:none;" class="actionsDown" id="actionsDown{{pic.id}}">
+							<div class="row" style="margin-top:20px;">
+								<div class="col-md-4">
+									<a href="#" class="btn btn-info" role="button" data-toggle="modal" data-target="#myGalleryForEditModal{{pic.id}}"><span class="glyphicon glyphicon-edit"></span>修改</a>
+								</div>
+								<div class="col-md-4">
+									<a href="{{pic.pic_src}}" target="_blank" class="btn btn-info" role="button"><span class="glyphicon glyphicon-save"></span>下载</a>
+								</div>
+								<div class="col-md-4">
+									<a href="#" class="btn btn-info" role="button" data-toggle="modal" data-target="#myGalleryForDelModal{{pic.id}}"><span class="glyphicon glyphicon-trash"></span>删除</a>
+								</div>
+							</div>
+						</div>
+						{% include "my_gallery_modal.html" %}
+					</div>
+				{% endfor %}
+			{% endif %}
+		</div>
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<div id="pagination"></div>
+			</div>
+		</div>
+		<script src="{{STATIC_URL}}js/bootstrap-paginator.js"></script>
+		<script type='text/javascript'>
+			$(document).ready(function(){
+				if ({{pics.paginator.num_pages}} != 1){
+						var options = {
+						alignment:'center',
+						currentPage: {{pics.number}},
+						totalPages: {{pics.paginator.num_pages}},
+						numberOfPages:5,
+						pageUrl: function(type, page, current){
+							return "/mygallery/"+{{detailUser.user_id}}+ "/" +page+"/";
+						},
+					};
+					$('#pagination').bootstrapPaginator(options);
+				};
+			});
+		</script>
+	</div>
+
+{% include "footer.html" %}

@@ -1,0 +1,77 @@
+{% include "header.html" %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		commentAjax();
+		var picTab = "{{picture.pic_tab}}".split(',');
+		var a = "";
+		for(var i = 0; i < picTab.length; i++) {
+			a += "<a style='margin-right:5px;margin-bottom:5px;' class='btn btn-info' id='pic-tab-a'>"+picTab[i]+"</a>";
+		}
+		$("#pic-tab-p").html(a);
+
+		
+	});
+	function commentAjax(){
+		$.ajax({
+			type:"POST",
+			url:'/comments_diaplay/',
+			data:{id:'{{picture.id}}'},
+			error: function(request) {
+				alert("Ajax Connection error!");
+			},
+			success: function(data) {
+				$('#comment-div').html(data);
+			}
+		});
+	}
+</script>
+<div class="container" style="margin-top:-10px;">
+	<div class="well well-lg">
+		<div class="row">
+			<div class="col-md-12" style="margin-bottom:20px;">
+				<h2 class="text-center">{{picture.pic_title}}</h2>
+				<p class="text-center text-muted">
+					<span class="glyphicon glyphicon-bullhorn"></span>&nbsp;&nbsp;由&nbsp;<strong>{{user.user_name}}</strong>&nbsp;提供&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<span class="glyphicon glyphicon-fire"></span>&nbsp;&nbsp;<strong>{{picture.pic_hot}}</strong>人看过&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;<strong>{{picture.pic_add_time|date:"Y年m月d日"}}</strong>上传
+				</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-9">
+				<div class="row">
+					<img src="{{picture.pic_src}}" alt="{{picture.pic_title}}" class="img-rounded center-block detail-img">
+				</div>
+				<div class="row">
+					<div class="col-md-12" style="margin-top:0.5em;">
+						<p>{{picture.pic_describe}}</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="row">
+					<div class="well col-md-10 col-md-offset-1">
+						<h4><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;所属标签</h4>
+						<hr style="margin-top:0;" />
+						<p id="pic-tab-p"></p>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="well col-md-10 col-md-offset-1">
+						<h4><strong>热度最高</strong></h4>
+						<hr style="margin-top:0;" />
+						<a href="/detail/{{recommend_pic.id}}/" class="thumbnail">
+							<img src="{{recommend_pic.pic_src}}" alt="{{recommend_pic.pic_title}}">
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
+<div id="comment-div">
+	
+</div>
+
+{% include "footer.html" %}

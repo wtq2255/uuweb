@@ -1,0 +1,107 @@
+<!-- Modal -->
+<div class="modal fade" id="myGalleryForEditModal{{pic.id}}" tabindex="-1" role="dialog" aria-labelledby="myGalleryForEditModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myGalleryForEditModalLabel">修改图片“{{pic.pic_title}}”</h4>
+      </div>
+      <form role="form" action="/user_edit_pic/{{pic.id}}/" method="POST">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="edit_pic-title">图片标题</label>
+            <div><input class="form-control" name="edit_pic_title" type="text" value="{{pic.pic_title}}" /></div>
+          </div>
+          <div class="form-group">
+            <label for="pic-type">图片分类</label>
+            <div>
+              <script type="text/javascript">
+                $(document).ready(function(){
+                  if ("{{pic.pic_type}}" == "superstar") {
+                    $('#edit_superstar_{{pic.id}}').attr("selected","selected");
+                  }else if ("{{pic.pic_type}}" == "food") {
+                    $('#edit_food_{{pic.id}}').attr("selected","selected");
+                  }else if ("{{pic.pic_type}}" == "cartoon") {
+                    $('#edit_cartoon_{{pic.id}}').attr("selected","selected");
+                  }else if ("{{pic.pic_type}}" == "travel") {
+                    $('#edit_travel_{{pic.id}}').attr("selected","selected");
+                  }else if ("{{pic.pic_type}}" == "photography") {
+                    $('#edit_photography_{{pic.id}}').attr("selected","selected");
+                  }else if ("{{pic.pic_type}}" == "design") {
+                    $('#edit_design_{{pic.id}}').attr("selected","selected");
+                  }else if ("{{pic.pic_type}}" == "funny") {
+                    $('#edit_funny_{{pic.id}}').attr("selected","selected");
+                  }else if ("{{pic.pic_type}}" == "car") {
+                    $('#edit_car_{{pic.id}}').attr("selected","selected");
+                  }
+                });
+              </script>
+              <select name="edit_pic_type" id="pic-type" class="form-control">
+                <option id="edit_superstar_{{pic.id}}" value="superstar">明星</option>
+                <option id="edit_food_{{pic.id}}" value="food">美食</option>
+                <option id="edit_cartoon_{{pic.id}}" value="cartoon">动漫</option>
+                <option id="edit_travel_{{pic.id}}" value="travel">旅游</option>
+                <option id="edit_photography_{{pic.id}}" value="photography">摄影</option>
+                <option id="edit_design_{{pic.id}}" value="design">设计</option>
+                <option id="edit_funny_{{pic.id}}" value="funny">搞笑</option>
+                <option id="edit_car_{{pic.id}}" value="car">汽车</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <script type="text/javascript">
+            $(document).ready(function(){
+              $("#edit-pic-tab-{{pic.id}}").blur(function(){
+                var picTab = checkString(splitString($(this).val()));
+                var a = '';
+                for(var i = 0; i < picTab.length; i++) {
+                  a += "<a style='margin-top:5px;margin-right:5px;' class='btn btn-info' title='"+picTab[i]+"'>"+picTab[i]+"</a>";
+                }
+                $("#edit-pic-tab-div-{{pic.id}}").html(a);
+                $("#edit-pic-tab-format-{{pic.id}}").val(picTab);
+              });
+            });
+            </script>
+            <label for="edit-pic-tab-{{pic.id}}">图片标签</label>
+            <div>
+              <input id="edit-pic-tab-{{pic.id}}" name="edit_pic_tab" type="text" value="{{pic.pic_tab}}" class="form-control" />
+              <input type="hidden" id="edit-pic-tab-format-{{pic.id}}" name="edit_pic_tab_format" value="" />
+            </div>
+            <div id="edit-pic-tab-div-{{pic.id}}"></div>
+            <p class="help-block">多个标签，请用逗号“ , ”隔开</p>          
+          </div>
+          <div class="form-group">
+            <label for="edit_pic-describe" class="control-label">图片描述</label>
+            <textarea name="edit_pic_describe" id＝"edit_pic-describe" class="form-control" rows="3" class="form-control">{{pic.pic_describe}}</textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-primary">保存修改</button>
+        </div>
+      </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="myGalleryForDelModal{{pic.id}}" tabindex="-1" role="dialog" aria-labelledby="myGalleryForDelModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myGalleryForDelModalLabel">删除图片“{{pic.pic_title}}”</h4>
+      </div>
+      <form action="/del_pic/{{detailUser.user_id}}/" method="post">
+        <div class="modal-body">
+          <input name="del_pic_id" type="hidden" value="{{pic.id}}">
+          <p class="text-warning">确定要删除图片“{{pic.pic_title}}”吗？</p>      
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="submit" class="btn btn-danger" role="button">删除</button>
+        </div>
+      </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

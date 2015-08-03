@@ -1,0 +1,123 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row" style="margin:5px 0;">
+				<div class="col-md-12">
+					{% for c in comments %}{% if forloop.last %}<button type="button" class="btn btn-default btn-xs">{{forloop.counter}}&nbsp;条评论</button>{% endif %}{% endfor %}
+					<div class="row pull-right" style="margin:3px auto 0 auto;">
+						<a href="">最新</a>
+						<a href="">最早</a>
+						<a href="">最热</a>
+					</div>
+				</div>
+			</div>
+			<hr style="margin:10px auto;"/>
+
+			
+			{% for comment in comments %}
+			<div class="row">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-1 text-right">
+							<img src="{{comment.comm_user.user_head_src}}" class="img-rounded" width="50px" height="50px" style="margin-top:10px;margin-right:-10px;" alt="{{comment_user.user_name}}">
+						</div>
+						<div class="col-md-11">
+							<div class="row">
+								<div class="col-md-12">
+									<script type="text/javascript">
+										$(document).ready(function(){
+											$("#comments-like-{{comment.id}}").one("click",function(){
+												$.ajax({
+													url:"/comments_like/",
+													type:"POST",
+													data: {"comment_like_id":"{{comment.id}}"},
+													dataTyep:"json",
+													error:function(){
+														alert("Ajax connection error");
+													},
+													success:function(data){
+														if(data!="False"){
+															$("#comments-like-{{comment.id}}").html();
+															$("#comments-like-{{comment.id}}").html('<span class="glyphicon glyphicon-heart"></span>&nbsp;顶('+data+')');
+														}
+													},
+												});
+											});
+											$("#comments-unlike-{{comment.id}}").one("click",function(){
+												$.ajax({
+													url:"/comments_unlike/",
+													type:"POST",
+													data: {"comment_unlike_id":"{{comment.id}}"},
+													dataTyep:"json",
+													error:function(){
+														alert("Ajax connection error");
+													},
+													success:function(data){
+														if(data!="False"){
+															$("#comments-unlike-{{comment.id}}").html();
+															$("#comments-unlike-{{comment.id}}").html('<span class="glyphicon glyphicon-heart-empty"></span>&nbsp;顶('+data+')');
+														}
+													},
+												});
+											});
+
+											$("#comments-reply-{{comment.id}}").click(function(){
+												$("#comments-form #comm-parent").val("{{comment.id}}");
+												$("#comments-form #comm-content").val("回复 {{comment.comm_user.user_name}} ：");
+												$("#comments-form #comm-content").select();
+												var href = $(this).attr("href");
+												var pos = $(href).offset().top;
+												$("html,body").animate({scrollTop: pos}, 500);
+												return false;
+											});
+										});
+									</script>
+									<h5 class="text-primary">{{comment.comm_user.user_name}}</h5>
+									<p>
+										{% for comm in comments %}
+										{% ifequal comment.comm_parent comm.id %}
+										回复&nbsp;<span class="text-primary">{{comm.comm_user.user_name}}</span>&nbsp;：
+										{% endifequal %}
+										{% endfor %}
+
+										{{comment.comm_content}}
+									</p>
+									<p class="text-muted">
+										<span class="glyphicon glyphicon-time"></span>&nbsp;{{comment.comm_add_time|date:"y年m月d日 H:i:s"}}
+										&nbsp;&nbsp;&nbsp;&nbsp;
+										<a id="comments-reply-{{comment.id}}" href="#comm-content" class="text-muted">
+											<span class="glyphicon glyphicon-share-alt"></span>&nbsp;回复
+										</a>
+										&nbsp;&nbsp;&nbsp;&nbsp;
+										{% if not comment.comm_islike %}
+										<a id="comments-like-{{comment.id}}" onclick="return false;" class="text-muted">
+											<span class="glyphicon glyphicon glyphicon-heart-empty"></span>&nbsp;顶({{comment.comm_like}})
+										</a>
+										{% else %}
+											<a id="comments-unlike-{{comment.id}}" onclick="return false;" class="text-muted">
+											<span class="glyphicon glyphicon glyphicon-heart"></span>&nbsp;顶({{comment.comm_like}})
+										</a>
+										{% endif %}
+										&nbsp;&nbsp;&nbsp;&nbsp;
+									</p>
+								</div>	
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<hr />
+			{% empty %}
+			<div class="row">
+				<p class="text-center text-muted" style="padding-top:20px;">还没有评论，沙发等你来抢</p>
+			</div>
+			<hr />
+			{% endfor %}
+
+			<div class="row" >
+				{% include "comments_form.html" %}
+			</div>
+		
+		</div>
+	</div>	
+</div>

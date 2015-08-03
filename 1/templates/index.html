@@ -1,0 +1,231 @@
+{% include "header.html" %}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".carousel-inner .item:first").addClass("active");
+		});
+	</script>
+	<!-- header picture carousel -->
+	<div class="container" style="margin-top:0px;">
+		<div id="carousel-header" class="carousel slide" data-ride="carousel">
+			<!-- Indicators -->
+			<ol class="carousel-indicators">
+				<li data-target="#carousel-header" data-slide-to="0" class="active"></li>
+				<li data-target="#carousel-header" data-slide-to="1"></li>
+				<li data-target="#carousel-header" data-slide-to="2"></li>
+			</ol>
+
+			<!-- Wrapper for slides -->
+			<div class="carousel-inner">
+				{% for hot_pic in hot_pics %}
+				<div class="item"><a href="/detail/{{hot_pic.id}}">
+					<img class="center-block" src="{{hot_pic.pic_src}}" alt="{{hot_pic.pic_title}}" >
+					<div class="carousel-caption">
+						{{hot_pic.pic_title}}
+					</div>
+				</a></div>
+				{% endfor %}
+			</div>
+
+			<!-- Controls -->
+			<a class="left carousel-control" href="#carousel-header" data-slide="prev">
+				<span class="glyphicon glyphicon-chevron-left"></span>
+			</a>
+			<a class="right carousel-control" href="#carousel-header" data-slide="next">
+				<span class="glyphicon glyphicon-chevron-right"></span>
+			</a>
+		</div>
+		<script type="text/javascript">
+			$('.carousel').carousel({
+				interval: 3000
+			})
+		</script>
+
+		<!-- list -->
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="row index-group">
+						<h2 class="left pull-left">明星</h2>
+						<p class="pull-right more"><a href="/superstar/" class="btn btn-link">更多>></a></p>
+					</div>
+					<div class="row list-pic">
+					{% if superstar_pics %}
+						{% for superstar_pic in superstar_pics %}
+							<div class="col-md-6">
+								<a href="/detail/{{superstar_pic.id}}" class="thumbnail">
+									<div class="index_pic">
+										<img class="center-block" src="{{superstar_pic.pic_src}}" alt="{{superstar_pic.pic_title}}">
+									</div>
+									<div class="caption">
+										<h4 class="text-center">{{superstar_pic.pic_title}}</h3>
+									</div>
+								</a>
+							</div>
+						{% endfor%}
+					{% endif %}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="row  index-group">
+						<h2 class="left pull-left">美食</h2>
+						<p class="pull-right more"><a href="/food/" class="btn btn-link">更多>></a></p>
+					</div>
+					<div class="row list-pic">
+					{% if food_pics %}
+						{% for food_pic in food_pics %}
+							<div class="col-md-6">
+								<a href="/detail/{{food_pic.id}}" class="thumbnail">
+									<div class="index_pic">
+										<img class="center-block" src="{{food_pic.pic_src}}" alt="{{food_pic.pic_title}}">
+									</div>									
+									<div class="caption">
+										<h4 class="text-center">{{food_pic.pic_title}}</h3>
+									</div>
+								</a>
+							</div>
+						{% endfor%}
+					{% endif %}
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="row index-group">
+						<h2 class="left pull-left">动漫</h2>
+						<p class="pull-right more"><a href="/cartoon/" class="btn btn-link">更多>></a></p>
+					</div>
+					<div class="row list-pic">
+					{% if cartoon_pics %}
+						{% for cartoon_pic in cartoon_pics %}
+							<div class="col-md-6">
+								<a href="/detail/{{cartoon_pic.id}}" class="thumbnail">
+									<div class="index_pic">
+										<img class="center-block" src="{{cartoon_pic.pic_src}}" alt="{{cartoon_pic.pic_title}}">
+									</div>									
+									<div class="caption">
+										<h4 class="text-center">{{cartoon_pic.pic_title}}</h3>
+									</div>
+								</a>
+							</div>
+						{% endfor%}
+					{% endif %}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="row index-group">
+						<h2 class="left pull-left">旅游</h2>
+						<p class="pull-right more"><a href="/travel/" class="btn btn-link">更多>></a></p>
+					</div>
+					<div class="row list-pic">
+					{% if travel_pics %}
+						{% for travel_pic in travel_pics %}
+							<div class="col-md-6">
+								<a href="/detail/{{travel_pic.id}}" class="thumbnail">
+									<div class="index_pic">
+										<img class="center-block" src="{{travel_pic.pic_src}}" alt="{{travel_pic.pic_title}}">
+									</div>									
+									<div class="caption">
+										<h4 class="text-center">{{travel_pic.pic_title}}</h3>
+									</div>
+								</a>
+							</div>
+						{% endfor%}
+					{% endif %}
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="row index-group">
+						<h2 class="left pull-left">摄影</h2>
+						<p class="pull-right more"><a href="/photography/" class="btn btn-link">更多>></a></p>
+					</div>
+					<div class="row list-pic">
+					{% if photography_pics %}
+						{% for photography_pic in photography_pics %}
+							<div class="col-md-6">
+								<a href="/detail/{{photography_pic.id}}" class="thumbnail">
+									<div class="index_pic">
+										<img class="center-block" src="{{photography_pic.pic_src}}" alt="{{photography_pic.pic_title}}">
+									</div>									
+									<div class="caption">
+										<h4 class="text-center">{{photography_pic.pic_title}}</h3>
+									</div>
+								</a>
+							</div>
+						{% endfor%}
+					{% endif %}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="row index-group">
+						<h2 class="left pull-left">设计</h2>
+						<p class="pull-right more"><a href="/design/" class="btn btn-link">更多>></a></p>
+					</div>
+					<div class="row list-pic">
+					{% if design_pics %}
+						{% for design_pic in design_pics %}
+							<div class="col-md-6">
+								<a href="/detail/{{design_pic.id}}" class="thumbnail">
+									<div class="index_pic">
+										<img class="center-block" src="{{design_pic.pic_src}}" alt="{{design_pic.pic_title}}">
+									</div>									
+									<div class="caption">
+										<h4 class="text-center">{{design_pic.pic_title}}</h3>
+									</div>
+								</a>
+							</div>
+						{% endfor%}
+					{% endif %}
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="row index-group">
+						<h2 class="left pull-left">搞笑</h2>
+						<p class="pull-right more"><a href="/funny/" class="btn btn-link">更多>></a></p>
+					</div>
+					<div class="row list-pic">
+					{% if funny_pics %}
+						{% for funny_pic in funny_pics %}
+							<div class="col-md-6">
+								<a href="/detail/{{funny_pic.id}}" class="thumbnail">
+									<div class="index_pic">
+										<img class="center-block" src="{{funny_pic.pic_src}}" alt="{{funny_pic.pic_title}}">
+									</div>									
+									<div class="caption">
+										<h4 class="text-center">{{funny_pic.pic_title}}</h3>
+									</div>
+								</a>
+							</div>
+						{% endfor%}
+					{% endif %}
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="row index-group">
+						<h2 class="left pull-left">汽车</h2>
+						<p class="pull-right more"><a href="/car/" class="btn btn-link">更多>></a></p>
+					</div>
+					<div class="row list-pic">
+					{% if car_pics %}
+						{% for car_pic in car_pics %}
+							<div class="col-md-6">
+								<a href="/detail/{{car_pic.id}}" class="thumbnail">
+									<div class="index_pic">
+										<img class="center-block" src="{{car_pic.pic_src}}" alt="{{car_pic.pic_title}}">
+									</div>									
+									<div class="caption">
+										<h4 class="text-center">{{car_pic.pic_title}}</h3>
+									</div>
+								</a>
+							</div>
+						{% endfor%}
+					{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% include "footer.html"%}

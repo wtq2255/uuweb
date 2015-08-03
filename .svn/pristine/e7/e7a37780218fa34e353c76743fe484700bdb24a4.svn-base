@@ -1,0 +1,77 @@
+{% include "header.html" %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		var navStr = "{{navStr}}";
+		if (navStr == "superstar") {
+			$('.list-title').html("明星&nbsp;<small>美女俊男，让您大饱眼福</small>");
+		}
+		else if (navStr == "food") {
+			$('.list-title').html("美食&nbsp;<small>天下美食，让您的眼睛享受饕餮盛宴</small>");
+		}
+		else if (navStr == "cartoon") {
+			$('.list-title').html("动漫&nbsp;<small>动漫卡通，让您感受二次元的美丽</small>");
+		}
+			else if (navStr == "travel") {
+			$('.list-title').html("旅行&nbsp;<small>环游世界，让您体会各国风情</small>");
+		}
+			else if (navStr == "photography") {
+			$('.list-title').html("摄影&nbsp;<small>摄影作品，让您感受摄影师的魅力</small>");
+			}
+		else if (navStr == "design") {
+			$('.list-title').html("设计&nbsp;<small>先锋设计，让您发动头脑风暴</small>");
+			}
+		else if (navStr == "funny") {
+			$('.list-title').html("搞笑&nbsp;<small>搞笑图片，让您快乐到家</small>");
+			}
+		else if (navStr == "car") {
+			$('.list-title').html("汽车&nbsp;<small>车行天下，让您感受汽车的奢华</small>");
+			}
+	});
+</script>
+<div class="container" style="min-height:490px;">
+	<div class="page-header">
+		<h1 class="list-title"></h1>
+	</div>
+	<div class="row list-pic">
+	{% for pic in pics.object_list %}
+		<div class="col-md-3">
+			<a href="/detail/{{pic.id}}" class="thumbnail">
+				<div class="index_pic">
+					<img class="center-block" src="{{pic.pic_src}}" alt="{{pic.pic_title}}">
+				</div>
+				<div class="caption">
+					<h4 class="text-center">{{pic.pic_title}}</h4>
+				</div>
+			</a>
+		</div>
+	{% empty %}
+		<h3 class="text-center text-info">
+			对不起，本页面还没有图片哦。。。等待其他人上传吧～～
+		</h3>
+	{% endfor %}
+		
+	</div>
+	<div class="row">
+		<div class="col-md-12 text-center">
+			<div id="pagination"></div>
+		</div>
+	</div>
+	<script src="{{STATIC_URL}}js/bootstrap-paginator.js"></script>
+	<script type='text/javascript'>
+		$(document).ready(function(){
+			if ({{pics.paginator.num_pages}} != 1){
+					var options = {
+					alignment:'center',
+					currentPage: {{pics.number}},
+					totalPages: {{pics.paginator.num_pages}},
+					numberOfPages:5,
+					pageUrl: function(type, page, current){
+						return "/{{navStr}}/"+page+"/";
+					},
+				};
+				$('#pagination').bootstrapPaginator(options);
+			};
+		});
+	</script>	
+</div>
+{% include "footer.html"%}
